@@ -25,3 +25,74 @@ You can add options to executable code like this
 ```
 
 The `echo: false` option disables the printing of code (only output is displayed).
+
+git init
+
+git add GA6.qmd
+
+git commit -m "Committing to the main document to set up"
+
+1.  fav_food \<- c("asparagus", "apples" , "potatoes", "tofu", "beans")
+
+fav_food
+
+fav_food\[3\] \<- "bold eagle"
+
+fav_food
+
+fav_food\[c(1, 5)\]
+
+2.  library(tidyverse)
+
+    require(tidyverse)
+
+    meta \<- read_tsv(file = "garrigos-data/meta/metadata.tsv")
+
+    str(meta)
+
+    the variables are time and treatment and sample id. there are 22 rows.
+
+    meta\$time("10dpi")
+
+meta \|\> mutate( time = sub(pattern = "10dpi", replacement = "10_dpi", x = time),
+
+treatment = sub(pattern = "cathemerium", replacement = "catch", x = treatment) )
+
+4.  require(ggplot2)
+
+    ```         
+    data(package = "ggplot2")
+    > midwest_datasets <- ggplot2::midwest
+    ```
+
+midwest_datasets
+
+5.  midwest_datasets \|\>
+
+filter(poptotal \> 30000, popdensity \> 800)
+
+6.  require(dplyr)
+
+new_dataset \<- midwest_datasets \|\>
+
+select(1:11) \|\>
+
+mutate(asian_ameri = popasian / popamerindian) \|\>
+
+arrange(desc(asian_ameri))
+
+new_dataset
+
+7.  Note: I wasn't sure if you wanted the mean calculated for the entire midwest_dataset or for new_dataset, so I did both
+
+mean_pop \<- midwest_datasets \|\>
+
+group_by(state) \|\>
+
+summarise(poptotal = mean(poptotal))
+
+mean_pop \<- new_dataset \|\>
+
+group_by(state) \|\>
+
+summarise(poptotal = mean(poptotal))
