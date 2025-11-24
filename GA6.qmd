@@ -7,22 +7,11 @@ editor: visual
 date: "2025-11-23"
 ---
 
-```{r}
-1 + 1
-```
+------------------------------------------------------------------------
 
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
+**Report**
 
 First, I created a repo:
-
-\`\`\`{r}
 
 ```         
 git init
@@ -32,7 +21,7 @@ git add GA6.qmd
 git commit -m "Committing to the main document to set up"
 ```
 
-R Basics:
+**R Basics**:
 
 1.  Create a character vector `fav_food` with five names of your favorite food. Replace third element of the vector with a bird name and extract first and fifth element.
 
@@ -48,165 +37,161 @@ R Basics:
     fav_food[c(1, 5)]
     ```
 
-2.  
+2.  Load the `tidyverse` package. We have seen in the class that when we load the `tidyverse` package, we see many warnings. Use the code chunk option to hide the warning. Read your `metadata.tsv` file from the `garrigos-data/meta` directory and save it as object `metadata`. Write down the data structure of the `metadata`, number of variables, and rows.
+
+    In this question, I used 'required()' as an additional command. There's really not that much of a difference between 'library()' and "required()' but 'required()' is something I often use in my R codes. It will activate the package if the package is installed, but if not, instead of an error it will show a warning but will keep running the code.
 
     ```{r}
     library(tidyverse)
 
     require(tidyverse)
 
-    meta <- read_tsv(file = "garrigos-data/meta/metadata.tsv")
+    meta <- read_tsv(file = "../garrigos-data/meta/metadata.tsv")
 
     str(meta)
 
-    'The variables are time and treatment and sample id. there are 22 rows.'
-
-    meta$time("10dpi")
+    'The variables are time and treatment and sample id. There are 22 rows.'
     ```
 
-meta \|\> mutate( time = sub(pattern = "10dpi", replacement = "10_dpi", x = time),
+3.  In the `metadata` object, replace the `dpi` with `_dpi` of the `time` variable and `cathemerium` with `cath` of the `treatment` variable.
 
-treatment = sub(pattern = "cathemerium", replacement = "catch", x = treatment) )
+    ```{r}
+    meta |> mutate( time = sub(pattern = "10dpi", replacement = "10_dpi", x = time),
 
-4.  require(ggplot2)
+    treatment = sub(pattern = "cathemerium", replacement = "catch", x = treatment) )
+    ```
 
-    ```         
+**Data wrangling**:
+
+1.  List all the datasets available in the `ggplot2` package. Read the data from inbuilt- dataset `midwest`. Save it as an object `midwest_datasets` and use the `midwest_datasets` to answer all the question afterwards.
+
+    ```{r}
+    require(ggplot2)
     data(package = "ggplot2")
-    > midwest_datasets <- ggplot2::midwest
+    midwest_datasets <- ggplot2::midwest
+
+    'For check:'
+
+    midwest_datasets
     ```
 
-midwest_datasets
+2.  Filter the rows with `poptotal > 30000` and `popdensity > 800`.
 
-5.  midwest_datasets \|\>
+    ```{r}
+    midwest_datasets |>
 
-filter(poptotal \> 30000, popdensity \> 800)
+    filter(poptotal > 30000, popdensity > 800)
+    ```
 
-6.  require(dplyr)
+3.  Select first 11 variables of the dataset. Create a new column named `asian_ameri` in `midwest_datasets`object by dividing `popasian` by `popamerindian` and sort `asian_ameri` in descending order. Save this output as `new_dataset` object
 
-new_dataset \<- midwest_datasets \|\>
+    ```{r}
+    require(dplyr)
 
-select(1:11) \|\>
+    new_dataset <- midwest_datasets |>
 
-mutate(asian_ameri = popasian / popamerindian) \|\>
+    select(1:11) |>
 
-arrange(desc(asian_ameri))
+    mutate(asian_ameri = popasian / popamerindian) |>
 
-new_dataset
+    arrange(desc(asian_ameri))
 
-7.  Note: I wasn't sure if you wanted the mean calculated for the entire midwest_dataset or for new_dataset, so I did both
+    new_dataset
+    ```
 
-mean_pop \<- midwest_datasets \|\>
+4.  Compute the total mean population per state and name the mean column as `poptotal`.
 
-group_by(state) \|\>
+    *Note*: I wasn't sure if you wanted the mean calculated for the entire midwest_dataset or for new_dataset, so I did both
 
-summarise(poptotal = mean(poptotal))
+    ```{r}
+    mean_pop <- midwest_datasets |>
 
-mean_pop \<- new_dataset \|\>
+    group_by(state) |>
 
-group_by(state) \|\>
+    summarise(poptotal = mean(poptotal))
 
-summarise(poptotal = mean(poptotal))
 
+    mean_pop <- new_dataset |>
+
+    group_by(state) |>
+
+    summarise(poptotal = mean(poptotal))
+    ```
+
+I committed to GitHub at the end using terminal:
+
+```         
 git add GA6.qmd
 
 git commit -m "Committing to the main document second time"
+```
 
-require(ggplot2)
+**Quarto and Data Visualization**:
 
-8.  ggplot(midwest_datasets, aes(x = state, y = area)) +
+1.  Create the violin plot with `state` in x-axis and `area` in y-axis. Facet the plot based on the `category`.
+
+    ```{r}
+    require(ggplot2)
+
+    ggplot(midwest_datasets, aes(x = state, y = area)) +
 
     geom_violin() +
 
-    facet_wrap(\~ category) +
+    facet_wrap(~ category) +
 
     theme_light() +
 
     labs(title = "Violin plot of area by category and state")
+    ```
 
-9.  ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+2.  Create a violin plot again with `state` in x-axis and `poptotal` in y-axis. Add the jitter points on the plot and color just the points based on the `category`. Is this point color global or local mapping? please explain.
+
+    ```{r}
+    ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
 
     geom_violin() +
 
     geom_jitter(aes(color = category), width = 0.08, alpha = 0.5) +
 
-    facet_wrap(\~ category) +
+    facet_wrap(~ category) +
 
     theme_light() +
 
     labs(title = "Violin plot of area by category and state")
+    ```
 
+    ```         
     This point color is local mapping because we assigned color by category inside geom_jitter, not directly inside ggplot(). It means that n other function is affected other than geom_jitter().
+    ```
 
-10. ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+3.  In the above plot change the theme to `theme_bw` and color the `state` manually instead of using default colors. Add the title of the plot using the **code chunk options**. Save this plot as an object `violin_plot`.
 
-    geom_violin() +
+    ```{r}
+    state_colors <- c(
+      IL = "purple",
+      IN = "green",
+      MI = "orange",
+      OH = "brown",
+      WI = "pink"
+    )
 
-    geom_jitter(aes(color = state), width = 0.08, alpha = 0.5) +
+    violin_plot <- ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+      geom_violin() +
+      geom_jitter(aes(color = state), width = 0.08, alpha = 0.6) +
+      scale_color_manual(values = state_colors) +
+      facet_wrap(~ category) +
+      theme_bw()
 
-    facet_wrap(\~ category) +
+    violin_plot
+    ```
 
-    theme_bw() +
+4.  Meow
 
-    labs(title = "Violin plot of area by category and state")
-
-11. 
-
-\`\`\`{r violin_plot, fig.cap="Violin plot of population by state and category"}
-
-\`\`\`r
-
-state_colors \<- c(
-
-IL = "purple",
-
-IN = "green",
-
-MI = "orange",
-
-OH = "maroon",
-
-WI = "pink"
-
-)
-
-violin_plot \<- ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
-
-geom_violin(fill = "grey90") +
-
-geom_jitter(aes(color = state), width = 0.08, alpha = 0.6) +
-
-scale_color_manual(values = state_colors) +
-
-facet_wrap(\~ category) +
-
-theme_bw()
-
-\`\`\`{r violin_plot, fig.cap="Population by State and Category"}
-
-state_colors \<- c(
-
-IL = "purple",
-
-IN = "green",
-
-MI = "orange",
-
-OH = "brown",
-
-WI = "pink"
-
-)
-
-violin_plot \<- ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
-
-geom_violin(fill = "grey90") +
-
-geom_jitter(aes(color = state), width = 0.08, alpha = 0.6) +
-
-scale_color_manual(values = state_colors) +
-
-facet_wrap(\~ category) +
-
-theme_bw()
-
-\`\`\`
+    ```{r}
+    ggsave(
+      filename = "violoin_plot.png",
+      plot = violin_plot,
+      width = 8,
+      height = 6
+    )
+    ```
