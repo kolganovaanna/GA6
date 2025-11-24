@@ -192,15 +192,18 @@ git commit -m "Committing to the main document second time"
       filename = "violoin_plot.png",
       plot = violin_plot,
       width = 8,
-      height = 6
+      height = 6,
+      dpi = 300
     )
     ```
+
+Or I could do the same manually by running the plot and exporting the output as a .png file using "export" button.
 
 **Publish your repo on Github**:
 
 ```         
 git add GA6.qmd
-git commit -m "final commit"
+git commit -m "prefinal commit"
 git branch -M main
 git remote add origin git@github.com:kolganovaanna/GA6.git
 git push -u origin main
