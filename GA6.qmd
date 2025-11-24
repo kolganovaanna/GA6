@@ -139,9 +139,7 @@ git commit -m "Committing to the main document second time"
 
     facet_wrap(~ category) +
 
-    theme_light() +
-
-    labs(title = "Violin plot of area by category and state")
+    theme_light() 
     ```
 
 2.  Create a violin plot again with `state` in x-axis and `poptotal` in y-axis. Add the jitter points on the plot and color just the points based on the `category`. Is this point color global or local mapping? please explain.
@@ -155,9 +153,7 @@ git commit -m "Committing to the main document second time"
 
     facet_wrap(~ category) +
 
-    theme_light() +
-
-    labs(title = "Violin plot of area by category and state")
+    theme_light() 
     ```
 
     ```         
@@ -202,7 +198,7 @@ Or I could do the same manually by running the plot and exporting the output as 
 **Publish your repo on Github**:
 
 ```         
-git add GA6.qmd
+git add GA6.qmd violoin_plot.png GA6.html
 git commit -m "final commit"
 git branch -M main
 git remote add origin git@github.com:kolganovaanna/GA6.git
