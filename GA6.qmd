@@ -185,7 +185,7 @@ git commit -m "Committing to the main document second time"
     violin_plot
     ```
 
-4.  Meow
+4.  Export the `violin_plot` and label it as `violoin_plot.png` in your current working repository.
 
     ```{r}
     ggsave(
@@ -195,3 +195,13 @@ git commit -m "Committing to the main document second time"
       height = 6
     )
     ```
+
+**Publish your repo on Github**:
+
+```         
+git add GA6.qmd
+git commit -m "final commit"
+git branch -M main
+git remote add origin git@github.com:kolganovaanna/GA6.git
+git push -u origin main
+```
