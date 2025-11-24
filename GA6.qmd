@@ -2,16 +2,10 @@
 title: "GA6.qmd"
 author: "Anna Kolganova"
 format: html
+theme: darkly 
 editor: visual
+date: "2025-11-23"
 ---
-
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
 1 + 1
@@ -26,33 +20,49 @@ You can add options to executable code like this
 
 The `echo: false` option disables the printing of code (only output is displayed).
 
+First, I created a repo:
+
+\`\`\`{r}
+
+```         
 git init
 
 git add GA6.qmd
 
 git commit -m "Committing to the main document to set up"
+```
 
-1.  fav_food \<- c("asparagus", "apples" , "potatoes", "tofu", "beans")
+R Basics:
 
-fav_food
+1.  Create a character vector `fav_food` with five names of your favorite food. Replace third element of the vector with a bird name and extract first and fifth element.
 
-fav_food\[3\] \<- "bold eagle"
+    ```{r}
+    fav_food <- c("asparagus", "apples" , "potatoes", "tofu", "beans")
 
-fav_food
+    fav_food
 
-fav_food\[c(1, 5)\]
+    fav_food[3] <- "bold eagle"
 
-2.  library(tidyverse)
+    fav_food
+
+    fav_food[c(1, 5)]
+    ```
+
+2.  
+
+    ```{r}
+    library(tidyverse)
 
     require(tidyverse)
 
-    meta \<- read_tsv(file = "garrigos-data/meta/metadata.tsv")
+    meta <- read_tsv(file = "garrigos-data/meta/metadata.tsv")
 
     str(meta)
 
-    the variables are time and treatment and sample id. there are 22 rows.
+    'The variables are time and treatment and sample id. there are 22 rows.'
 
-    meta\$time("10dpi")
+    meta$time("10dpi")
+    ```
 
 meta \|\> mutate( time = sub(pattern = "10dpi", replacement = "10_dpi", x = time),
 
@@ -96,3 +106,107 @@ mean_pop \<- new_dataset \|\>
 group_by(state) \|\>
 
 summarise(poptotal = mean(poptotal))
+
+git add GA6.qmd
+
+git commit -m "Committing to the main document second time"
+
+require(ggplot2)
+
+8.  ggplot(midwest_datasets, aes(x = state, y = area)) +
+
+    geom_violin() +
+
+    facet_wrap(\~ category) +
+
+    theme_light() +
+
+    labs(title = "Violin plot of area by category and state")
+
+9.  ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+
+    geom_violin() +
+
+    geom_jitter(aes(color = category), width = 0.08, alpha = 0.5) +
+
+    facet_wrap(\~ category) +
+
+    theme_light() +
+
+    labs(title = "Violin plot of area by category and state")
+
+    This point color is local mapping because we assigned color by category inside geom_jitter, not directly inside ggplot(). It means that n other function is affected other than geom_jitter().
+
+10. ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+
+    geom_violin() +
+
+    geom_jitter(aes(color = state), width = 0.08, alpha = 0.5) +
+
+    facet_wrap(\~ category) +
+
+    theme_bw() +
+
+    labs(title = "Violin plot of area by category and state")
+
+11. 
+
+\`\`\`{r violin_plot, fig.cap="Violin plot of population by state and category"}
+
+\`\`\`r
+
+state_colors \<- c(
+
+IL = "purple",
+
+IN = "green",
+
+MI = "orange",
+
+OH = "maroon",
+
+WI = "pink"
+
+)
+
+violin_plot \<- ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+
+geom_violin(fill = "grey90") +
+
+geom_jitter(aes(color = state), width = 0.08, alpha = 0.6) +
+
+scale_color_manual(values = state_colors) +
+
+facet_wrap(\~ category) +
+
+theme_bw()
+
+\`\`\`{r violin_plot, fig.cap="Population by State and Category"}
+
+state_colors \<- c(
+
+IL = "purple",
+
+IN = "green",
+
+MI = "orange",
+
+OH = "brown",
+
+WI = "pink"
+
+)
+
+violin_plot \<- ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
+
+geom_violin(fill = "grey90") +
+
+geom_jitter(aes(color = state), width = 0.08, alpha = 0.6) +
+
+scale_color_manual(values = state_colors) +
+
+facet_wrap(\~ category) +
+
+theme_bw()
+
+\`\`\`
