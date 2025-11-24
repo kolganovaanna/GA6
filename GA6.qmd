@@ -2,7 +2,7 @@
 title: "GA6.qmd"
 author: "Anna Kolganova"
 format: html
-theme: darkly 
+theme: cosmo 
 editor: visual
 date: "2025-11-23"
 ---
@@ -130,7 +130,7 @@ git commit -m "Committing to the main document second time"
 
 1.  Create the violin plot with `state` in x-axis and `area` in y-axis. Facet the plot based on the `category`.
 
-    ```{r}
+    ```{r violin_plot, warning=FALSE}
     require(ggplot2)
 
     ggplot(midwest_datasets, aes(x = state, y = area)) +
@@ -146,7 +146,7 @@ git commit -m "Committing to the main document second time"
 
 2.  Create a violin plot again with `state` in x-axis and `poptotal` in y-axis. Add the jitter points on the plot and color just the points based on the `category`. Is this point color global or local mapping? please explain.
 
-    ```{r}
+    ```{r violin_plot, warning=FALSE}
     ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
 
     geom_violin() +
@@ -166,7 +166,7 @@ git commit -m "Committing to the main document second time"
 
 3.  In the above plot change the theme to `theme_bw` and color the `state` manually instead of using default colors. Add the title of the plot using the **code chunk options**. Save this plot as an object `violin_plot`.
 
-    ```{r}
+    ```{r violin_plot, warning=FALSE, fig.cap="Population by State and Category"}
     state_colors <- c(
       IL = "purple",
       IN = "green",
@@ -203,7 +203,7 @@ Or I could do the same manually by running the plot and exporting the output as 
 
 ```         
 git add GA6.qmd
-git commit -m "prefinal commit"
+git commit -m "final commit"
 git branch -M main
 git remote add origin git@github.com:kolganovaanna/GA6.git
 git push -u origin main
