@@ -130,7 +130,7 @@ git commit -m "Committing to the main document second time"
 
 1.  Create the violin plot with `state` in x-axis and `area` in y-axis. Facet the plot based on the `category`.
 
-    ```{r violin_plot, warning=FALSE}
+    ```{r plot_area, warning=FALSE}
     require(ggplot2)
 
     ggplot(midwest_datasets, aes(x = state, y = area)) +
@@ -144,7 +144,7 @@ git commit -m "Committing to the main document second time"
 
 2.  Create a violin plot again with `state` in x-axis and `poptotal` in y-axis. Add the jitter points on the plot and color just the points based on the `category`. Is this point color global or local mapping? please explain.
 
-    ```{r violin_plot, warning=FALSE}
+    ```{r plot_category, warning=FALSE}
     ggplot(midwest_datasets, aes(x = state, y = poptotal)) +
 
     geom_violin() +
@@ -183,7 +183,7 @@ git commit -m "Committing to the main document second time"
 
 4.  Export the `violin_plot` and label it as `violoin_plot.png` in your current working repository.
 
-    ```{r}
+    ```{r violin_plot_saved, warning=FALSE}
     ggsave(
       filename = "violoin_plot.png",
       plot = violin_plot,
@@ -198,7 +198,7 @@ Or I could do the same manually by running the plot and exporting the output as 
 **Publish your repo on Github**:
 
 ```         
-git add GA6.qmd violoin_plot.png GA6.html
+git add GA6.qmd violoin_plot.png GA6.html GA6_files
 git commit -m "final commit"
 git branch -M main
 git remote add origin git@github.com:kolganovaanna/GA6.git
